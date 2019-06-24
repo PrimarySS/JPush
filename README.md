@@ -1,8 +1,4 @@
-# JPush
-第三方推送平台(极光推送)：JAVA_SDK服务端集成后台项目
-
-详细可以查看极光推送官方api文档https://docs.jiguang.cn/jpush/server/sdk/java_sdk/
-
+JPush API Java Library
 概述
 这是 JPush REST API 的 Java 版本封装开发包，是由极光推送官方提供的，一般支持最新的 API 功能。
 
@@ -115,7 +111,7 @@ try {
     try {
         PushResult result = jpushClient.sendPush(payload);
         LOG.info("Got result - " + result);
-
+	
     } catch (APIConnectionException e) {
         // Connection error, should retry later
         LOG.error("Connection error, should retry later", e);
@@ -130,9 +126,9 @@ try {
 进行推送的关键在于构建一个 PushPayload 对象。以下示例一般的构建对象的用法。
 
 快捷地构建推送对象：所有平台，所有设备，内容为 ALERT 的通知。
-    public static PushPayload buildPushObject_all_all_alert() {
-        return PushPayload.alertAll(ALERT);
-    }
+	public static PushPayload buildPushObject_all_all_alert() {
+	    return PushPayload.alertAll(ALERT);
+	}
 构建推送对象：所有平台，推送目标是别名为 "alias1"，通知内容为 ALERT。
     public static PushPayload buildPushObject_all_alias_alert() {
         return PushPayload.newBuilder()
@@ -187,10 +183,10 @@ try {
         JPushClient jpushClient = new JPushClient(masterSecret, appKey);
         try {
             SMS sms = SMS.newBuilder()
-                    .setDelayTime(1000)
-                    .setTempID(2000)
-                    .addPara("Test", 1)
-                    .build();
+            		.setDelayTime(1000)
+            		.setTempID(2000)
+            		.addPara("Test", 1)
+            		.build();
             PushResult result = jpushClient.sendAndroidMessageWithAlias("Test SMS", "test sms", sms, "alias1");
             LOG.info("Got result - " + result);
         } catch (APIConnectionException e) {
@@ -273,23 +269,23 @@ Custom Client 样例
 
 配置的SSLVersion表示指定至少支持的协议版本，也可能支持其他多个协议版本，最终支持的协议版本列表取决于JRE和运行环境
     public static void testCustomClient() {
-        ClientConfig config = ClientConfig.getInstance();
+		ClientConfig config = ClientConfig.getInstance();
         config.setMaxRetryTimes(5);
-        config.setConnectionTimeout(10 * 1000); // 10 seconds
-        config.setSSLVersion("TLSv1.1");        // JPush server supports SSLv3, TLSv1, TLSv1.1, TLSv1.2
+        config.setConnectionTimeout(10 * 1000);	// 10 seconds
+        config.setSSLVersion("TLSv1.1");		// JPush server supports SSLv3, TLSv1, TLSv1.1, TLSv1.2
 
         JPushClient jPushClient = new JPushClient(masterSecret, appKey, null, config);
-    }
+	}
 
     public static void testCustomPushClient() {
         ClientConfig config = ClientConfig.getInstance();
-        config.setApnsProduction(false);    // development env
+        config.setApnsProduction(false); 	// development env
         config.setTimeToLive(60 * 60 * 24); // one day
 
-    //  config.setGlobalPushSetting(false, 60 * 60 * 24); // development env, one day
+    //	config.setGlobalPushSetting(false, 60 * 60 * 24); // development env, one day
 
-        JPushClient jPushClient = new JPushClient(masterSecret, appKey, null, config);  // JPush client
+        JPushClient jPushClient = new JPushClient(masterSecret, appKey, null, config); 	// JPush client
 
-    //  PushClient pushClient = new PushClient(masterSecret, appKey, null, config);     // push client only
+    //	PushClient pushClient = new PushClient(masterSecret, appKey, null, config); 	// push client only
 
     }
